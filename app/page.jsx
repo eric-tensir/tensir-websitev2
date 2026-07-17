@@ -185,6 +185,18 @@ function Landing() {
         </div>
       </section>
 
+      {/* ————— SLOGAN — under hero ————— */}
+      <section className="border-t border-white/10">
+        <div className="px-4 md:px-10 py-16 md:py-24">
+          <h2
+            className="font-semibold leading-[1.05] tracking-tight max-w-5xl"
+            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 5.5vw, 4rem)", letterSpacing: "-0.02em" }}
+          >
+            Assemble compute for chemistry.
+          </h2>
+        </div>
+      </section>
+
       {/* ————— CORE CONCEPTS ————— */}
       <section className="border-t border-white/10">
         <div className="px-4 md:px-10 py-8 md:py-10 border-b border-white/10">

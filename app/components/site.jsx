@@ -89,21 +89,14 @@ export function Cta({ children, onClick, href }) {
   );
 }
 
-const NAV_LINKS = [
-  { label: "Mission", href: "/mission" },
-  { label: "Careers", href: "/careers" },
-  { label: "Platform", href: "/platform" },
-];
-
+// Logo-only top bar — pure one-page scroll, no top navigation links.
 function Nav() {
-  const openContact = useContact();
-
   return (
     <header
       className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md"
       style={{ backgroundColor: "rgba(11,15,19,0.88)" }}
     >
-      <div className="flex items-center justify-between px-4 md:px-10 h-[76px]">
+      <div className="flex items-center px-4 md:px-10 h-[76px]">
         <a href="/" className="flex items-center gap-4">
           <TensirMark size={64} id="nav" />
           <span
@@ -113,21 +106,6 @@ function Nav() {
             Tensir
           </span>
         </a>
-        <nav className="right-axis flex items-center gap-6 md:gap-9">
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.label}
-                href={l.href}
-                className="text-sm lg:text-lg font-medium uppercase tracking-[0.18em] text-white/60 hover:text-white transition-colors duration-150"
-                style={{ fontFamily: DISPLAY }}
-              >
-                {l.label}
-              </a>
-            ))}
-          </div>
-          <Cta onClick={openContact}>Contact us</Cta>
-        </nav>
       </div>
     </header>
   );
