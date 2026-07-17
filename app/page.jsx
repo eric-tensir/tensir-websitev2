@@ -10,7 +10,6 @@ import { Shell, Cta, MONO, DISPLAY, FRAG, PANEL } from "./components/site";
 // ————————————————————————————————————————————
 
 const t = {
-  sub: "Compute logistics for chemistry R&D",
   sectionTitle: "Core concepts of Tensir",
   heads: ["Build pipelines", "Assemble compute", "Forecast budget", "Trace provenance", "Deploy workflows"],
   bodies: [
