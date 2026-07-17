@@ -52,101 +52,6 @@ export function TensirMark({ size = 28, id = "m" }) {
   );
 }
 
-// Custom shard wordmark — invented letterforms (not a font).
-// Same language as the mark: irregular facets, dual crimson, sharp cuts,
-// no curves, slight crack notches. Mark SVG geometry is never altered.
-export function TensirWordmark({ height = 52, className = "" }) {
-  // Cap y≈8–12, base y≈90–92. ~56-wide cells, 12 gap. Total 396.
-  const w = 396;
-  const h = 100;
-  return (
-    <svg
-      className={"tensir-wordmark select-none " + className}
-      width={(height * w) / h}
-      height={height}
-      viewBox={`0 0 ${w} ${h}`}
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      role="img"
-    >
-      <title>Tensir</title>
-
-      {/* —— T —— broken crystal bar; stem with facet plane */}
-      <g>
-        {/* body */}
-        <polygon
-          fill={SHARD_DARK}
-          points="0,14 18,8 48,10 56,16 54,30 38,32 40,88 34,92 16,90 14,32 2,28"
-        />
-        {/* top plane */}
-        <polygon fill={SHARD} points="0,14 18,8 48,10 56,16 52,24 4,26" />
-        {/* stem face */}
-        <polygon fill={SHARD} points="16,48 38,46 40,88 34,92 16,90" />
-        {/* crack notch under bar (void to bg) */}
-        <polygon fill="#000" points="22,28 32,26 30,36 24,36" />
-      </g>
-
-      {/* —— E —— open right; three shard bars; spine with cut */}
-      <g transform="translate(68,0)">
-        <polygon
-          fill={SHARD_DARK}
-          points="2,10 48,8 54,14 52,28 20,30 20,42 42,40 46,46 44,56 20,58 20,74 52,72 56,80 52,90 0,92 4,78 4,16"
-        />
-        <polygon fill={SHARD} points="2,10 48,8 54,14 50,22 4,24" />
-        <polygon fill={SHARD} points="20,40 42,38 44,54 20,56" />
-        <polygon fill={SHARD} points="4,74 52,72 56,80 52,90 0,92 4,84" />
-        <polygon fill="#000" points="6,60 14,58 12,68 8,68" />
-      </g>
-
-      {/* —— N —— twin irregular pillars + diagonal fracture bridge */}
-      <g transform="translate(136,0)">
-        <polygon fill={SHARD_DARK} points="0,12 16,8 22,14 20,88 14,92 2,90" />
-        <polygon fill={SHARD_DARK} points="38,10 54,8 58,14 54,90 40,92 36,86" />
-        <polygon fill={SHARD} points="12,16 20,10 48,76 40,84" />
-        <polygon fill={SHARD} points="0,12 16,8 22,14 18,28 2,30" />
-        <polygon fill={SHARD} points="40,64 56,62 54,90 40,92" />
-      </g>
-
-      {/* —— S —— stepped fracture S; angular bowls, no curves */}
-      <g transform="translate(208,0)">
-        <polygon
-          fill={SHARD_DARK}
-          points="
-            10,8 46,10 54,16 52,30 22,32 20,42
-            48,40 56,48 54,86 46,92 8,90 2,82 4,70
-            34,72 36,62 8,60 2,52 4,18 10,8
-          "
-        />
-        <polygon fill={SHARD} points="10,8 46,10 54,16 50,24 8,22" />
-        <polygon fill={SHARD} points="20,40 48,38 52,50 22,52" />
-        <polygon fill={SHARD} points="4,70 34,72 34,84 8,90 2,82" />
-      </g>
-
-      {/* —— I —— single crystal column, beveled head/foot + mid crack */}
-      <g transform="translate(278,0)">
-        <polygon fill={SHARD_DARK} points="2,10 18,8 24,14 22,86 16,92 0,90 0,84 4,16" />
-        <polygon fill={SHARD} points="2,10 18,8 24,14 20,26 4,28" />
-        <polygon fill={SHARD} points="0,68 22,66 22,86 16,92 0,90" />
-        <polygon fill="#000" points="8,46 18,44 16,54 10,54" />
-      </g>
-
-      {/* —— R —— spine + broken angular bowl + kick leg shard */}
-      <g transform="translate(316,0)">
-        <polygon fill={SHARD_DARK} points="0,10 16,8 22,14 20,90 4,92 2,86" />
-        <polygon
-          fill={SHARD_DARK}
-          points="14,10 48,12 56,20 52,40 42,50 16,48"
-        />
-        <polygon fill={SHARD_DARK} points="26,48 44,52 58,88 50,92 36,90 24,62" />
-        <polygon fill={SHARD} points="0,10 16,8 22,14 18,28 2,30" />
-        <polygon fill={SHARD} points="14,10 48,12 54,20 50,24 16,22" />
-        <polygon fill={SHARD} points="32,58 44,52 58,88 50,90" />
-        <polygon fill="#000" points="26,40 34,38 32,48 24,48" />
-      </g>
-    </svg>
-  );
-}
-
 // ————— Contact modal context (modal UI lands in the next pass) —————
 const ContactCtx = createContext(() => {});
 export const useContact = () => useContext(ContactCtx);
@@ -192,9 +97,14 @@ function Nav() {
       style={{ backgroundColor: "rgba(0,0,0,0.88)" }}
     >
       <div className="flex items-center px-4 md:px-10 h-[76px]">
-        <a href="/" className="flex items-center gap-4 md:gap-5" aria-label="Tensir home">
+        <a href="/" className="flex items-center gap-4">
           <TensirMark size={64} id="nav" />
-          <TensirWordmark height={52} />
+          <span
+            className="text-4xl font-semibold leading-none tracking-tight"
+            style={{ fontFamily: DISPLAY, color: INK_LIGHT }}
+          >
+            Tensir
+          </span>
         </a>
       </div>
     </header>

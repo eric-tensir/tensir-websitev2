@@ -9,14 +9,6 @@ html {
   color: #0b0f13;
 }
 
-/* Custom shard wordmark (SVG letterforms) — optical pair with TensirMark. */
-.tensir-wordmark {
-  display: block;
-  flex-shrink: 0;
-  transform: translateY(1px);
-  overflow: visible;
-}
-
 /* Right-column axis: the nav links' left edge. .right-axis pins the nav's
    right group to this width; .right-axis-row pushes a row's content into a
    column of the same width, so door labels line up under the nav links.
