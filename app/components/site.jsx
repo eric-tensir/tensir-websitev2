@@ -13,8 +13,8 @@ export const MONO = "var(--font-mono), ui-monospace, SFMono-Regular, Menlo, mono
 export const SANS = "var(--font-display), ui-sans-serif, system-ui, sans-serif";
 export const DISPLAY = "var(--font-display), ui-sans-serif, sans-serif";
 
-export const BG = "#0B0F13";
-export const PANEL = "#10151B";
+export const BG = "#000000";
+export const PANEL = "#0A0A0A";
 export const INK_LIGHT = "#F2F1ED";
 
 // Tensir mark — master geometry. Shard palette brightened for the dark bg;
@@ -94,7 +94,7 @@ function Nav() {
   return (
     <header
       className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md"
-      style={{ backgroundColor: "rgba(11,15,19,0.88)" }}
+      style={{ backgroundColor: "rgba(0,0,0,0.88)" }}
     >
       <div className="flex items-center px-4 md:px-10 h-[76px]">
         <a href="/" className="flex items-center gap-4">

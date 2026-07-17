@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Shell, Cta, MONO, DISPLAY, FRAG, PANEL } from "./components/site";
+import { Shell, MONO, DISPLAY, FRAG, PANEL } from "./components/site";
 
 // ————————————————————————————————————————————
 // TENSIR — landing (one-page scroll)
@@ -10,15 +10,8 @@ import { Shell, Cta, MONO, DISPLAY, FRAG, PANEL } from "./components/site";
 // ————————————————————————————————————————————
 
 const t = {
-  sectionTitle: "Core concepts of Tensir",
-  heads: ["Build pipelines", "Assemble compute", "Forecast budget", "Trace provenance", "Deploy workflows"],
-  bodies: [
-    "custom sequence to answer this : do we keep working on this compound or trash it ??",
-    "qpu, gpu, tpu — cloud, on prem, air gapped. one view of the whole arena.",
-    "money, cash, the burn. chemistry compute is expensive, see exactly where it goes !",
-    "the biography, the records, the life story.",
-    null, // Deploy workflows — a sketch-language arrow renders instead of copy
-  ],
+  serves:
+    "Tensir serves the world’s most ambitious researchers and organizations accelerating atomic- and molecular-scale discovery.",
   materialsUmbrella: "Materials & Molecular Systems",
   materialTypes: [
     "metallodrugs",
@@ -62,99 +55,18 @@ const t = {
         "Healing the planet while feeding and housing humanity: carbon capture materials (MOFs, porous frameworks), next-generation fertilizers and green ammonia catalysts that feed billions with lower emissions, low-carbon cement and construction materials, recyclable plastics and packaging, and green chemistry catalysts.",
     },
   ],
+  tools: ["Quantum ESPRESSO", "CP2K", "PySCF", "VASP", "ORCA", "LAMMPS", "ASE"],
+  toolsBlurb:
+    "One interface across the codes your lab already trusts — built for heterogeneous compute, with modularity so pipelines stay composable as tools and hardware change.",
   quote: "“Some interesting things happen once fragments are able to stack.”",
   founder: "Eric — Founder, Tensir",
 };
 
-// Hand sketches — white strokes on #0B0F13, pre-matched to the site bg.
-// Order follows t.heads.
-const SKETCHES = [
-  "/sketches/02_gates_v1_white_on_dark.png",
-  "/sketches/03_molecule_v1_white_on_dark.png",
-  "/sketches/04_budget_v1_white_on_dark.png",
-  "/sketches/01_pipeline_v1_white_on_dark.png",
-  "/sketches/05_hierarchy_v1_white_on_dark.png",
-];
-
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputCls =
-  "w-full rounded-md border border-white/15 bg-[#10151B] px-4 py-3 text-[15px] text-white " +
+  "w-full rounded-md border border-white/15 bg-[#0A0A0A] px-4 py-3 text-[15px] text-white " +
   "placeholder:text-white/25 outline-none transition-colors duration-150 focus:border-[#CB433A]";
-
-// Hand-drawn-style arrow — same visual language as the sketches.
-function SketchArrow() {
-  return (
-    <svg width="220" height="64" viewBox="0 0 220 64" fill="none" aria-hidden="true">
-      <path
-        d="M6 38 C 48 30, 96 27, 148 29 C 168 30, 188 31, 206 33"
-        stroke="#EDEDED"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M182 14 C 191 21, 199 27, 206 33 C 196 36, 186 42, 178 50"
-        stroke="#EDEDED"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-// ————— Expandable door band — smooth grid-rows height animation —————
-function Door({ label, children }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <section className="border-t border-white/10">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="group w-full right-axis-row px-4 md:px-10 py-10 md:py-14 text-left cursor-pointer"
-      >
-        <span className="flex items-center justify-between gap-6">
-          <span
-            className={
-              "text-[1.75rem] md:text-[2.5rem] font-semibold tracking-tight leading-tight transition-colors duration-150 " +
-              (open ? "text-[#CB433A]" : "group-hover:text-[#CB433A]")
-            }
-            style={{ fontFamily: DISPLAY }}
-          >
-            {label}
-          </span>
-          <span
-            className={
-              "shrink-0 flex items-center justify-center w-11 h-11 md:w-13 md:h-13 rounded-md border transition-all duration-300 " +
-              (open ? "border-[#CB433A] rotate-180" : "border-white/20 group-hover:border-[#CB433A]")
-            }
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-[#CB433A]">
-              <path d="M3 5.5 L8 10.5 L13 5.5" stroke="currentColor" strokeWidth="1.8" />
-            </svg>
-          </span>
-        </span>
-      </button>
-      <div
-        className="grid transition-[grid-template-rows] duration-500 ease-in-out"
-        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
-      >
-        <div className="overflow-hidden min-h-0">
-          <div className="right-axis-row px-4 md:px-10 pb-12 md:pb-16">
-            <div>{children}</div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DoorTeaser({ children }) {
-  return (
-    <p className="text-sm md:text-base leading-6 text-white/50 max-w-xl" style={{ fontFamily: MONO }}>
-      {children}
-    </p>
-  );
-}
 
 function Field({ label, error, sentence, children }) {
   return (
@@ -461,9 +373,9 @@ function Landing() {
 
   return (
     <>
-      {/* ————— HERO — full-viewport video at top ————— */}
+      {/* 1 — HERO + auto video (muted) */}
       <section className="relative flex flex-col min-h-[100svh]">
-        <div className="absolute inset-0" style={{ backgroundColor: "#090D11" }}>
+        <div className="absolute inset-0" style={{ backgroundColor: "#000000" }}>
           {/* Video: drop /public/hero.mp4 when ready. Grid shows until video can play. */}
           <video
             autoPlay
@@ -513,7 +425,7 @@ function Landing() {
         </div>
       </section>
 
-      {/* ————— HEADLINE — right after hero video ————— */}
+      {/* 2 — Big headline + short serves text */}
       <section className="border-t border-white/10">
         <div
           className="px-4 md:px-10 py-16 md:py-24"
@@ -529,79 +441,13 @@ function Landing() {
           >
             Assemble compute for chemistry.
           </h1>
-        </div>
-      </section>
-
-      {/* ————— CORE CONCEPTS ————— */}
-      <section className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-8 md:py-10 border-b border-white/10">
-          <h2 className="text-2xl md:text-[2rem] font-semibold tracking-tight" style={{ fontFamily: DISPLAY }}>
-            {t.sectionTitle}
-          </h2>
-        </div>
-        <div>
-          {t.heads.map((head, i) => (
-            <div
-              key={head}
-              className="relative flex flex-col md:flex-row md:items-center border-b border-white/10 last:border-b-0"
-            >
-              <div className="flex-1 min-w-0 px-4 md:px-10 pt-8 md:py-12">
-                <span className="text-xs uppercase tracking-[0.2em] text-white/45" style={{ fontFamily: MONO }}>
-                  {head}
-                </span>
-                {t.bodies[i] ? (
-                  <p className="mt-4 text-lg md:text-[1.375rem] font-medium leading-[1.45] tracking-tight text-white/90 max-w-2xl">
-                    {t.bodies[i]}
-                  </p>
-                ) : (
-                  <div className="mt-6 flex md:justify-end md:pr-6">
-                    <SketchArrow />
-                  </div>
-                )}
-              </div>
-              <div className="shrink-0 px-4 pt-8 pb-6 md:w-[460px] md:border-l md:border-white/10 md:px-8 md:py-8">
-                <img
-                  src={SKETCHES[i]}
-                  alt=""
-                  loading="lazy"
-                  className="w-full max-w-[420px] h-auto md:max-w-none"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ————— MATERIALS & MOLECULAR SYSTEMS ————— */}
-      <section className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-16 md:py-24">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-white/45 mb-4" style={{ fontFamily: MONO }}>
-            Domain
+          <p className="mt-8 max-w-3xl text-lg md:text-xl leading-[1.5] text-white/65">
+            {t.serves}
           </p>
-          <h2
-            className="font-semibold tracking-tight max-w-4xl"
-            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3.25rem)" }}
-          >
-            {t.materialsUmbrella}
-          </h2>
-          <p className="mt-6 max-w-2xl text-base md:text-lg leading-7 text-white/55" style={{ fontFamily: MONO }}>
-            [USER WILL WRITE THIS TEXT]
-          </p>
-          <ul className="mt-12 flex flex-wrap gap-3 md:gap-4">
-            {t.materialTypes.map((type) => (
-              <li
-                key={type}
-                className="rounded-md border border-white/15 px-4 py-2.5 text-sm md:text-base text-white/80"
-                style={{ fontFamily: MONO }}
-              >
-                {type}
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      {/* ————— INDUSTRIES ————— */}
+      {/* 3 — Industries */}
       <section className="border-t border-white/10">
         <div className="px-4 md:px-10 py-8 md:py-10 border-b border-white/10">
           <h2 className="text-2xl md:text-[2rem] font-semibold tracking-tight" style={{ fontFamily: DISPLAY }}>
@@ -630,7 +476,57 @@ function Landing() {
         </div>
       </section>
 
-      {/* ————— FOUNDER QUOTE ————— */}
+      {/* 4 — Materials & Molecular Systems */}
+      <section className="border-t border-white/10">
+        <div className="px-4 md:px-10 py-16 md:py-24">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-white/45 mb-4" style={{ fontFamily: MONO }}>
+            Domain
+          </p>
+          <h2
+            className="font-semibold tracking-tight max-w-4xl"
+            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3.25rem)" }}
+          >
+            {t.materialsUmbrella}
+          </h2>
+          <ul className="mt-12 flex flex-wrap gap-3 md:gap-4">
+            {t.materialTypes.map((type) => (
+              <li
+                key={type}
+                className="rounded-md border border-white/15 px-4 py-2.5 text-sm md:text-base text-white/80"
+                style={{ fontFamily: MONO }}
+              >
+                {type}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 5 — Tools & Backends */}
+      <section className="border-t border-white/10">
+        <div className="px-4 md:px-10 py-16 md:py-24">
+          <h2
+            className="font-semibold tracking-tight"
+            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3.25rem)" }}
+          >
+            Tools &amp; Backends
+          </h2>
+          <p className="mt-6 max-w-3xl text-base md:text-lg leading-[1.55] text-white/65">{t.toolsBlurb}</p>
+          <ul className="mt-12 flex flex-wrap gap-3 md:gap-4">
+            {t.tools.map((tool) => (
+              <li
+                key={tool}
+                className="rounded-md border border-white/15 px-4 py-2.5 text-sm md:text-base text-white/80"
+                style={{ fontFamily: MONO }}
+              >
+                {tool}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Quote (kept) */}
       <section className="border-t border-white/10">
         <div className="px-4 md:px-10 py-24 md:py-36">
           <blockquote className="max-w-4xl border-l-2 pl-6 md:pl-12" style={{ borderColor: FRAG }}>
@@ -647,20 +543,7 @@ function Landing() {
         </div>
       </section>
 
-      {/* ————— PLATFORM DOOR ————— */}
-      <Door label="Tour the platform">
-        <DoorTeaser>[USER WILL WRITE THIS TEXT]</DoorTeaser>
-        <div className="mt-8">
-          <Cta href="#contact">Contact us for access</Cta>
-        </div>
-      </Door>
-
-      {/* ————— MISSION DOOR ————— */}
-      <Door label="Discover our mission">
-        <DoorTeaser>[USER WILL WRITE THIS TEXT]</DoorTeaser>
-      </Door>
-
-      {/* ————— PIP INSTALL CTA ————— */}
+      {/* 6 — Simple pip install CTA */}
       <section id="install" className="border-t border-white/10">
         <div className="px-4 md:px-10 py-20 md:py-28 text-center">
           <p className="text-[11px] uppercase tracking-[0.22em] text-white/45 mb-6" style={{ fontFamily: MONO }}>
@@ -670,12 +553,12 @@ function Landing() {
             className="inline-block rounded-md border border-white/15 px-6 py-4 md:px-10 md:py-5 text-lg md:text-2xl text-white"
             style={{ fontFamily: MONO, backgroundColor: PANEL }}
           >
-            pip install tensir-runner
+            pip install tensir
           </pre>
         </div>
       </section>
 
-      {/* ————— CONTACT + CAREERS TOGGLE ————— */}
+      {/* 7 — Contact form (default) + careers toggle */}
       <ContactSection />
     </>
   );
