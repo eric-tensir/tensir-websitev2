@@ -9,14 +9,12 @@ html {
   color: #0b0f13;
 }
 
-/* Logo wordmark — geometric, serious, readable (pairs with TensirMark). */
+/* Custom shard wordmark (SVG letterforms) — optical pair with TensirMark. */
 .tensir-wordmark {
-  display: inline-block;
-  /* Optical balance next to the 64px mark */
+  display: block;
+  flex-shrink: 0;
   transform: translateY(1px);
-  /* Soft geometric density without custom font files */
-  font-variant-ligatures: none;
-  text-rendering: geometricPrecision;
+  overflow: visible;
 }
 
 /* Right-column axis: the nav links' left edge. .right-axis pins the nav's
