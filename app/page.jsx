@@ -512,18 +512,18 @@ function Landing() {
             00:30
           </span>
         </div>
+      </section>
 
+      {/* ————— HEADLINE — right after hero video ————— */}
+      <section className="border-t border-white/10">
         <div
-          className="relative z-10 mt-auto w-full px-4 md:px-10 pb-14 md:pb-20"
+          className="px-4 md:px-10 py-16 md:py-24"
           style={{
             opacity: loaded ? 1 : 0,
             transform: loaded ? "none" : "translateY(10px)",
             transition: "opacity 700ms ease, transform 700ms ease",
           }}
         >
-          <p className="text-[13px] uppercase tracking-[0.22em] text-white/60 mb-5" style={{ fontFamily: MONO }}>
-            {t.sub}
-          </p>
           <h1
             className="font-semibold leading-[1.02] max-w-5xl"
             style={{ fontFamily: DISPLAY, fontSize: "clamp(2.75rem, 7vw, 5.5rem)", letterSpacing: "-0.02em" }}
