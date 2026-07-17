@@ -175,41 +175,45 @@ function ContactSection() {
 
   return (
     <section id="contact" className="border-t border-white/10">
-      <div className="px-4 md:px-10 pt-16 md:pt-24 pb-6">
-        <h2
-          className="font-semibold tracking-tight"
-          style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3rem)" }}
-        >
-          Get in touch
-        </h2>
-        <div className="mt-8 inline-flex rounded-md border border-white/15 p-1" role="tablist" aria-label="Contact mode">
-          {[
-            { id: "contact", label: "Contact" },
-            { id: "careers", label: "Careers" },
-          ].map((tab) => {
-            const active = mode === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                onClick={() => switchMode(tab.id)}
-                className={
-                  "px-5 py-2.5 text-xs uppercase tracking-[0.18em] rounded-[5px] transition-colors duration-150 " +
-                  (active ? "bg-[#CB433A] text-[#0B0F13]" : "text-white/55 hover:text-white")
-                }
-                style={{ fontFamily: MONO }}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Form block sits on the right side of the page */}
+      <div className="px-4 md:px-10 pt-16 md:pt-24 pb-20 md:pb-28 flex justify-end">
+        <div className="w-full max-w-3xl">
+          <h2
+            className="font-semibold tracking-tight"
+            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3rem)" }}
+          >
+            Get in touch
+          </h2>
+          <div
+            className="mt-8 inline-flex rounded-md border border-white/15 p-1"
+            role="tablist"
+            aria-label="Contact mode"
+          >
+            {[
+              { id: "contact", label: "Contact" },
+              { id: "careers", label: "Careers" },
+            ].map((tab) => {
+              const active = mode === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => switchMode(tab.id)}
+                  className={
+                    "px-5 py-2.5 text-xs uppercase tracking-[0.18em] rounded-[5px] transition-colors duration-150 " +
+                    (active ? "bg-[#CB433A] text-[#0B0F13]" : "text-white/55 hover:text-white")
+                  }
+                  style={{ fontFamily: MONO }}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
 
-      <div className="px-4 md:px-10 pb-20 md:pb-28">
-        <div className="max-w-3xl">
+          <div className="mt-10">
           {status === "sent" ? (
             <div className="rounded-md border p-8 md:p-10" style={{ borderColor: FRAG, backgroundColor: PANEL }}>
               <p className="text-sm text-[#CB433A]" style={{ fontFamily: MONO }}>
@@ -348,6 +352,7 @@ function ContactSection() {
               </div>
             </form>
           )}
+          </div>
         </div>
       </div>
     </section>

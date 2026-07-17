@@ -52,6 +52,32 @@ export function TensirMark({ size = 28, id = "m" }) {
   );
 }
 
+// Wordmark next to the mark — geometric, serious, CoreWeave-adjacent;
+// same crimson as the logo facets. Mark geometry itself is never altered.
+export function TensirWordmark({ className = "" }) {
+  return (
+    <span
+      className={"tensir-wordmark select-none " + className}
+      style={{
+        fontFamily: DISPLAY,
+        color: SHARD,
+        fontWeight: 700,
+        fontSize: "clamp(1.65rem, 2.4vw, 2.15rem)",
+        letterSpacing: "0.16em",
+        lineHeight: 1,
+        textTransform: "uppercase",
+        // Slight geometric squareness without harming readability
+        fontStretch: "condensed",
+        fontFeatureSettings: '"ss01", "kern"',
+        WebkitFontSmoothing: "antialiased",
+      }}
+      aria-hidden="true"
+    >
+      Tensir
+    </span>
+  );
+}
+
 // ————— Contact modal context (modal UI lands in the next pass) —————
 const ContactCtx = createContext(() => {});
 export const useContact = () => useContext(ContactCtx);
@@ -97,14 +123,9 @@ function Nav() {
       style={{ backgroundColor: "rgba(0,0,0,0.88)" }}
     >
       <div className="flex items-center px-4 md:px-10 h-[76px]">
-        <a href="/" className="flex items-center gap-4">
+        <a href="/" className="flex items-center gap-3.5 md:gap-4" aria-label="Tensir home">
           <TensirMark size={64} id="nav" />
-          <span
-            className="text-4xl font-semibold leading-none tracking-tight"
-            style={{ fontFamily: DISPLAY, color: INK_LIGHT }}
-          >
-            Tensir
-          </span>
+          <TensirWordmark />
         </a>
       </div>
     </header>
