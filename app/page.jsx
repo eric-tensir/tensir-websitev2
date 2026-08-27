@@ -1,89 +1,181 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Shell, MONO, DISPLAY, FRAG, PANEL } from "./components/site";
+import { useRef, useState } from "react";
+import { Shell, MONO, DISPLAY, FRAG, PANEL, INK_LIGHT, Cta } from "./components/site";
 
 // ————————————————————————————————————————————
 // TENSIR — landing (one-page scroll)
-// Dark, full-bleed, freeform-grade rhythm. Crimson accent only.
-// Logo lives in Shell — do not touch it.
+// Light, full-bleed, freeform-grade rhythm. Moon-gray / blue-purple accents.
+//
+// Product demo: drop a 30s UI video at /public/demo.mp4 and set
+// DEMO_VIDEO_SRC to "/demo.mp4". Leave empty for the placeholder.
 // ————————————————————————————————————————————
 
+const DEMO_VIDEO_SRC = "";
+
 const t = {
-  serves:
-    "Tensir serves the world’s most ambitious researchers and organizations accelerating atomic- and molecular-scale discovery.",
-  materialsUmbrella: "Materials & Molecular Systems",
-  materialTypes: [
-    "metallodrugs",
-    "catalysts",
-    "crystalline",
-    "alloys",
-    "f-elements",
-    "excited organics",
-    "porous frameworks",
-    "battery interfaces",
-  ],
+  hero: "Assemble compute for materials science.",
+  heroSupport:
+    "Software infrastructure for orchestrating complete, controllable materials research pipelines.",
   industries: [
     {
-      name: "Energy",
-      body:
-        "Powering a thriving civilization: advanced solar materials, next-generation batteries and storage systems, safer fission fuels, and fusion reactor components.",
+      title: "Energy",
+      items: [
+        "batteries",
+        "solid electrolytes",
+        "fusion first-wall",
+        "fission cladding",
+        "solar cells",
+        "electrolyzers",
+      ],
     },
     {
-      name: "Space Exploration",
-      body:
-        "Building humanity’s multi-planetary future: reusable rocket engines and heat shields, lightweight radiation-shielding habitats, in-situ resource utilization on the Moon and Mars, and durable solar arrays for deep space.",
+      title: "Semiconductors",
+      items: ["SiC/GaN", "defects", "interfaces", "dielectrics", "interconnects", "die-level heat"],
     },
     {
-      name: "Semiconductors & Computing",
-      body:
-        "Pushing the frontiers of silicon and beyond: new gate dielectrics and channel materials for sub-1 nm nodes, dopant diffusion and defect engineering, thermal interface materials, and materials for scalable quantum processors.",
+      title: "Automotive",
+      items: [
+        "lightweight alloys",
+        "advanced steels",
+        "hydrogen-compatible metals",
+        "magnets",
+        "coatings",
+        "crash structures",
+      ],
     },
     {
-      name: "Robotics & Advanced Machines",
-      body:
-        "Creating stronger, lighter, and more capable machines: rare-earth-free permanent magnets and high-performance actuators, lightweight structural alloys and composites, soft robotics materials, and neural-interface electrode materials.",
+      title: "Aero / Space / Defense",
+      items: [
+        "thermal barrier coatings",
+        "high-T alloys",
+        "radiation damage",
+        "oxidation",
+        "propulsion materials",
+      ],
     },
     {
-      name: "Human Health & Longevity",
-      body:
-        "Advancing therapies that heal and extend human life: precision metallodrugs and organometallic catalysts, next-generation antibiotics, protein-degrader molecules, regenerative medicine materials, and anti-aging compounds.",
+      title: "Chemicals",
+      items: [
+        "catalyst surfaces",
+        "membranes",
+        "coatings",
+        "specialty formulations",
+        "industrial gases",
+      ],
     },
     {
-      name: "Sustainable Materials & Planetary Solutions",
-      body:
-        "Healing the planet while feeding and housing humanity: carbon capture materials (MOFs, porous frameworks), next-generation fertilizers and green ammonia catalysts that feed billions with lower emissions, low-carbon cement and construction materials, recyclable plastics and packaging, and green chemistry catalysts.",
+      title: "Electronics",
+      items: ["solder/intermetallics", "TIMs", "connectors", "board-level thermal paths", "sensors"],
+    },
+    {
+      title: "Robotics",
+      items: ["actuator magnets", "structural alloys", "joint wear", "motor thermal paths"],
+    },
+    {
+      title: "MedTech / Biomaterials",
+      items: ["implant alloys", "saline corrosion", "coating adhesion", "biointerfaces"],
+    },
+    {
+      title: "Metals & Mining",
+      items: ["alloy design", "phase stability", "hydrogen in steel", "refractories", "corrosion"],
+    },
+    {
+      title: "Packaging",
+      items: ["barrier films", "multilayer adhesion", "permeability", "inorganic coatings"],
     },
   ],
-  tools: ["Quantum ESPRESSO", "CP2K", "PySCF", "VASP", "ORCA", "LAMMPS", "ASE"],
-  toolsBlurb:
-    "One interface across the codes your lab already trusts — built for heterogeneous compute, with modularity so pipelines stay composable as tools and hardware change.",
-  quote: "“Some interesting things happen once fragments are able to stack.”",
-  founder: "Eric — Founder, Tensir",
+  keywords: ["Pipeline", "Compute", "Budget", "Provenance", "Tree"],
+  materials: [
+    {
+      title: "Materials Systems",
+      items: [
+        "crystals",
+        "surfaces",
+        "interfaces",
+        "defects",
+        "2D materials",
+        "porous materials",
+        "amorphous materials",
+        "nanostructures",
+      ],
+    },
+    {
+      title: "Material Classes",
+      items: [
+        "metals",
+        "alloys",
+        "semiconductors",
+        "ceramics",
+        "polymers",
+        "oxides",
+        "carbides",
+        "nitrides",
+      ],
+    },
+  ],
+  stackLead:
+    "Public data + proprietary customer data → scientific computation → AI models/agents → controlled compute → fully traced result.",
+  stack: [
+    {
+      title: "Data Sources",
+      items: ["Materials Project", "Materials Cloud"],
+    },
+    {
+      title: "Simulation",
+      items: ["Quantum ESPRESSO", "LAMMPS"],
+    },
+    {
+      title: "Scientific Models",
+      items: ["MACE", "MLIPs"],
+    },
+    {
+      title: "Agents",
+      body: "Planners — not physics engines.",
+      items: [],
+    },
+    {
+      title: "Tooling",
+      items: ["ASE", "pymatgen", "Phonopy"],
+    },
+    {
+      title: "Compute",
+      items: ["cloud", "HPC", "on-prem"],
+    },
+  ],
+  deploy: [
+    { title: "Cloud", items: ["bookable substrates"] },
+    { title: "HPC", items: ["existing lab queues"] },
+    { title: "On-prem", items: ["customer iron", "air-gapped"] },
+    { title: "Customer infra", items: ["proprietary data stays inside"] },
+  ],
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Color system: primary near-black, muted secondary, bg #fff.
+const ink = INK_LIGHT; // #0B0B12
+const inkMuted = "#5C6275";
+const ink70 = "rgba(11,11,18,0.78)";
+const ink65 = "rgba(11,11,18,0.72)";
+const ink45 = "rgba(92,98,117,0.95)"; // muted labels
+
 const inputCls =
-  "w-full rounded-md border border-white/15 bg-[#0A0A0A] px-4 py-3 text-[15px] text-white " +
-  "placeholder:text-white/25 outline-none transition-colors duration-150 focus:border-[#CB433A]";
+  "w-full rounded-md border border-black/15 bg-[#F4F5F7] px-4 py-3 text-[15px] " +
+  "outline-none transition-colors duration-150 focus:border-[#9A9EB0]";
 
 function Field({ label, error, sentence, children }) {
   return (
     <div>
       <label
-        className={
-          sentence
-            ? "block mb-3 text-sm leading-6 text-white/70"
-            : "block mb-2 text-[11px] uppercase tracking-[0.2em] text-white/45"
-        }
-        style={{ fontFamily: MONO }}
+        className={sentence ? "block mb-3 text-sm leading-6" : "block mb-2 text-[11px] uppercase tracking-[0.2em]"}
+        style={{ fontFamily: MONO, color: sentence ? ink70 : ink45 }}
       >
         {label}
       </label>
       {children}
       {error && (
-        <p className="mt-2 text-xs text-[#CB433A]" style={{ fontFamily: MONO }}>
+        <p className="mt-2 text-xs" style={{ fontFamily: MONO, color: FRAG }}>
           {error}
         </p>
       )}
@@ -91,14 +183,150 @@ function Field({ label, error, sentence, children }) {
   );
 }
 
-// Contact at bottom — toggle between Contact and Careers.
+function Kicker({ children }) {
+  return (
+    <p className="text-[11px] uppercase tracking-[0.22em] mb-4" style={{ fontFamily: MONO, color: ink45 }}>
+      {children}
+    </p>
+  );
+}
+
+function ChipList({ items }) {
+  if (!items?.length) return null;
+  return (
+    <ul className="mt-4 flex flex-wrap gap-2">
+      {items.map((item) => (
+        <li
+          key={item}
+          className="rounded-md border border-black/15 px-3 py-1.5 text-sm"
+          style={{ fontFamily: MONO, color: ink }}
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Hover / focus-visible on pointer+keyboard; click/tap persists open (mobile).
+function RevealCard({ title, body, items, size = "md" }) {
+  const [open, setOpen] = useState(false);
+  const pad =
+    size === "lg"
+      ? "px-5 md:px-8 py-12 md:py-16 min-h-[12rem] md:min-h-[22rem]"
+      : "px-4 md:px-6 py-10 md:py-12 min-h-[10rem] md:min-h-[16rem]";
+
+  return (
+    <button
+      type="button"
+      aria-expanded={open}
+      onClick={(e) => {
+        setOpen((v) => {
+          const next = !v;
+          if (next) {
+            requestAnimationFrame(() => {
+              e.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" });
+            });
+          }
+          return next;
+        });
+      }}
+      className={
+        "group w-full h-full text-left bg-white cursor-pointer scroll-mt-28 " +
+        "transition-colors duration-150 hover:bg-[#F4F5F7] " +
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#9A9EB0] " +
+        pad
+      }
+    >
+      <h3
+        className={
+          size === "lg"
+            ? "text-2xl md:text-3xl font-semibold tracking-tight leading-snug"
+            : "text-lg md:text-xl font-semibold tracking-tight leading-snug"
+        }
+        style={{ fontFamily: DISPLAY, color: ink }}
+      >
+        {title}
+      </h3>
+      <p
+        className="mt-4 md:hidden text-[11px] uppercase tracking-[0.18em]"
+        style={{ fontFamily: MONO, color: ink45 }}
+      >
+        {open ? "Hide" : "Details"}
+      </p>
+      <div
+        className={
+          "mt-5 transition-opacity duration-200 " +
+          (open
+            ? "opacity-100 visible"
+            : "max-md:hidden opacity-0 invisible md:group-hover:visible md:group-hover:opacity-100 md:group-focus-visible:visible md:group-focus-visible:opacity-100")
+        }
+      >
+        {body && (
+          <p className="text-sm md:text-base leading-[1.55]" style={{ color: ink65 }}>
+            {body}
+          </p>
+        )}
+        <ChipList items={items} />
+      </div>
+    </button>
+  );
+}
+
+function DemoVideo({ src }) {
+  if (src) {
+    return (
+      <video
+        src={src}
+        className="w-full aspect-video bg-black"
+        controls
+        playsInline
+        preload="metadata"
+      >
+        Your browser does not support embedded video.
+      </video>
+    );
+  }
+
+  return (
+    <div
+      className="relative aspect-video w-full bg-[#F4F5F7] flex items-center justify-center"
+      role="img"
+      aria-label="30-second product demo placeholder"
+    >
+      <div className="flex flex-col items-center gap-5 px-6 text-center">
+        <div
+          className="flex size-16 md:size-20 items-center justify-center rounded-full border border-black/15"
+          aria-hidden="true"
+        >
+          <svg width="22" height="22" viewBox="0 0 16 16" fill="none" className="ml-0.5">
+            <path d="M5 3.5 L13 8 L5 12.5 Z" fill={ink} />
+          </svg>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.22em]" style={{ fontFamily: MONO, color: ink45 }}>
+            30-second product demo
+          </p>
+          <p className="mt-2 text-sm md:text-base" style={{ color: ink65 }}>
+            Short UI walkthrough — video coming soon
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Contact at bottom — Investors (left) | Reach Out (default) | Careers (right).
 function ContactSection() {
-  const [mode, setMode] = useState("contact"); // contact | careers
+  const [mode, setMode] = useState("contact"); // investors | contact | careers
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     message: "",
+    firm: "",
+    checkSize: "",
+    thesis: "",
     cashEquity: "",
     role: "",
     whiteboard: "",
@@ -134,6 +362,9 @@ function ContactSection() {
 
     if (mode === "contact") {
       if (!form.message.trim()) errs.message = "required";
+    } else if (mode === "investors") {
+      if (!form.firm.trim()) errs.firm = "required";
+      if (!form.thesis.trim()) errs.thesis = "required — a few sentences is fine";
     } else {
       if (!form.cashEquity.trim()) errs.cashEquity = "required — a one-liner is fine";
       if (!form.role.trim()) errs.role = "required — a one-liner is fine";
@@ -145,7 +376,8 @@ function ContactSection() {
 
     setStatus("sending");
     try {
-      const endpoint = mode === "contact" ? "/api/contact" : "/api/careers";
+      const endpoint =
+        mode === "contact" ? "/api/contact" : mode === "investors" ? "/api/investors" : "/api/careers";
       const body =
         mode === "contact"
           ? {
@@ -154,14 +386,23 @@ function ContactSection() {
               email: form.email,
               message: form.message,
             }
-          : {
-              firstName: form.firstName,
-              lastName: form.lastName,
-              email: form.email,
-              cashEquity: form.cashEquity,
-              role: form.role,
-              whiteboard: form.whiteboard,
-            };
+          : mode === "investors"
+            ? {
+                firstName: form.firstName,
+                lastName: form.lastName,
+                email: form.email,
+                firm: form.firm,
+                checkSize: form.checkSize,
+                thesis: form.thesis,
+              }
+            : {
+                firstName: form.firstName,
+                lastName: form.lastName,
+                email: form.email,
+                cashEquity: form.cashEquity,
+                role: form.role,
+                whiteboard: form.whiteboard,
+              };
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -173,185 +414,255 @@ function ContactSection() {
     }
   };
 
+  const title =
+    mode === "investors" ? "Investors" : mode === "careers" ? "Careers" : "Reach Out";
+
+  const successCopy =
+    mode === "careers"
+      ? "we read every whiteboard. if it resonates, you'll hear from eric directly."
+      : mode === "investors"
+        ? "thanks — we'll be in touch shortly."
+        : "thanks — we'll get back to you soon.";
+
   return (
-    <section id="contact" className="border-t border-white/10">
-      {/* Form block sits on the right side of the page */}
-      <div className="px-4 md:px-10 pt-16 md:pt-24 pb-20 md:pb-28 flex justify-end">
+    <section id="contact" className="border-t border-black/10 scroll-mt-28">
+      <div className="px-4 md:px-10 pt-16 md:pt-24 pb-20 md:pb-28 flex justify-center">
         <div className="w-full max-w-3xl">
-          <h2
-            className="font-semibold tracking-tight"
-            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3rem)" }}
-          >
-            Get in touch
-          </h2>
-          <div
-            className="mt-8 inline-flex rounded-md border border-white/15 p-1"
-            role="tablist"
-            aria-label="Contact mode"
-          >
-            {[
-              { id: "contact", label: "Contact" },
-              { id: "careers", label: "Careers" },
-            ].map((tab) => {
-              const active = mode === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => switchMode(tab.id)}
-                  className={
-                    "px-5 py-2.5 text-xs uppercase tracking-[0.18em] rounded-[5px] transition-colors duration-150 " +
-                    (active ? "bg-[#CB433A] text-[#0B0F13]" : "text-white/55 hover:text-white")
-                  }
-                  style={{ fontFamily: MONO }}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
+          {/* Side tabs (Investors / Careers) + main title (Reach Out by default) */}
+          <div className="flex items-center justify-between gap-4">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "investors"}
+              onClick={() => switchMode("investors")}
+              className={
+                "shrink-0 text-[11px] uppercase tracking-[0.18em] transition-colors duration-150 " +
+                (mode === "investors" ? "opacity-100" : "opacity-50 hover:opacity-80")
+              }
+              style={{ fontFamily: MONO, color: mode === "investors" ? FRAG : ink }}
+            >
+              Investors
+            </button>
+            <h2
+              className="font-semibold tracking-tight text-center"
+              style={{ fontFamily: DISPLAY, fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
+            >
+              {title}
+            </h2>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === "careers"}
+              onClick={() => switchMode("careers")}
+              className={
+                "shrink-0 text-[11px] uppercase tracking-[0.18em] transition-colors duration-150 " +
+                (mode === "careers" ? "opacity-100" : "opacity-50 hover:opacity-80")
+              }
+              style={{ fontFamily: MONO, color: mode === "careers" ? FRAG : ink }}
+            >
+              Careers
+            </button>
           </div>
 
-          <div className="mt-10">
-          {status === "sent" ? (
-            <div className="rounded-md border p-8 md:p-10" style={{ borderColor: FRAG, backgroundColor: PANEL }}>
-              <p className="text-sm text-[#CB433A]" style={{ fontFamily: MONO }}>
-                [ received ]
-              </p>
-              <p className="mt-4 text-base md:text-lg leading-7 text-white/80" style={{ fontFamily: MONO }}>
-                {mode === "careers"
-                  ? "we read every whiteboard. if it resonates, you'll hear from eric directly."
-                  : "thanks — we'll get back to you soon."}
-              </p>
+          {/* When on a side mode, allow return to Reach Out */}
+          {mode !== "contact" && (
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                onClick={() => switchMode("contact")}
+                className="text-[11px] uppercase tracking-[0.18em] opacity-50 hover:opacity-80 transition-opacity duration-150"
+                style={{ fontFamily: MONO, color: ink }}
+              >
+                ← Reach Out
+              </button>
             </div>
-          ) : (
-            <form onSubmit={onSubmit} noValidate>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Field label="First name" error={errors.firstName}>
-                  <input
-                    className={inputCls}
-                    value={form.firstName}
-                    onChange={set("firstName")}
-                    autoComplete="given-name"
-                  />
-                </Field>
-                <Field label="Last name" error={errors.lastName}>
-                  <input
-                    className={inputCls}
-                    value={form.lastName}
-                    onChange={set("lastName")}
-                    autoComplete="family-name"
-                  />
-                </Field>
-                <div className="md:col-span-2">
-                  <Field label="Email" error={errors.email}>
+          )}
+
+          <div className="mt-10">
+            {status === "sent" ? (
+              <div className="rounded-md border p-8 md:p-10" style={{ borderColor: FRAG, backgroundColor: PANEL }}>
+                <p className="text-sm" style={{ fontFamily: MONO, color: FRAG }}>
+                  [ received ]
+                </p>
+                <p className="mt-4 text-base md:text-lg leading-7" style={{ fontFamily: MONO, color: ink70 }}>
+                  {successCopy}
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={onSubmit} noValidate>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Field label="First name" error={errors.firstName}>
                     <input
                       className={inputCls}
-                      type="email"
-                      value={form.email}
-                      onChange={set("email")}
-                      autoComplete="email"
+                      style={{ color: ink, caretColor: ink }}
+                      value={form.firstName}
+                      onChange={set("firstName")}
+                      autoComplete="given-name"
                     />
                   </Field>
+                  <Field label="Last name" error={errors.lastName}>
+                    <input
+                      className={inputCls}
+                      style={{ color: ink, caretColor: ink }}
+                      value={form.lastName}
+                      onChange={set("lastName")}
+                      autoComplete="family-name"
+                    />
+                  </Field>
+                  <div className="md:col-span-2">
+                    <Field label="Email" error={errors.email}>
+                      <input
+                        className={inputCls}
+                        style={{ color: ink, caretColor: ink }}
+                        type="email"
+                        value={form.email}
+                        onChange={set("email")}
+                        autoComplete="email"
+                      />
+                    </Field>
+                  </div>
                 </div>
-              </div>
 
-              {mode === "contact" ? (
-                <div className="mt-8">
-                  <Field label="Message" error={errors.message}>
-                    <textarea
-                      rows={6}
-                      value={form.message}
-                      onChange={set("message")}
-                      className={`${inputCls} resize-y leading-7`}
-                      style={{ fontFamily: MONO }}
-                      placeholder="[USER WILL WRITE THIS TEXT]"
-                    />
-                  </Field>
-                </div>
-              ) : (
-                <>
-                  <div className="mt-12 space-y-10">
+                {mode === "contact" && (
+                  <div className="mt-8">
+                    <Field label="Message" error={errors.message}>
+                      <textarea
+                        rows={6}
+                        value={form.message}
+                        onChange={set("message")}
+                        className={`${inputCls} resize-y leading-7`}
+                        style={{ fontFamily: MONO, color: ink, caretColor: ink }}
+                        placeholder="What are you working on?"
+                      />
+                    </Field>
+                  </div>
+                )}
+
+                {mode === "investors" && (
+                  <div className="mt-8 space-y-8">
+                    <Field label="Firm / fund" error={errors.firm}>
+                      <input
+                        className={inputCls}
+                        style={{ color: ink, caretColor: ink }}
+                        value={form.firm}
+                        onChange={set("firm")}
+                        autoComplete="organization"
+                      />
+                    </Field>
+                    <Field label="Typical check size (optional)" error={errors.checkSize}>
+                      <input
+                        className={inputCls}
+                        style={{ color: ink, caretColor: ink }}
+                        value={form.checkSize}
+                        onChange={set("checkSize")}
+                        placeholder="e.g. $250k–$1M"
+                      />
+                    </Field>
                     <Field
-                      label="cash vs. equity — what's your preference and why?"
-                      error={errors.cashEquity}
+                      label="what draws you to tensir — stage, thesis, how you can help?"
+                      error={errors.thesis}
                       sentence
                     >
                       <textarea
-                        rows={3}
-                        value={form.cashEquity}
-                        onChange={set("cashEquity")}
-                        className={`${inputCls} resize-none leading-7`}
-                        style={{ fontFamily: MONO }}
-                      />
-                    </Field>
-                    <Field label="define your own role. what would you do at tensir?" error={errors.role} sentence>
-                      <textarea
-                        rows={3}
-                        value={form.role}
-                        onChange={set("role")}
-                        className={`${inputCls} resize-none leading-7`}
-                        style={{ fontFamily: MONO }}
+                        rows={5}
+                        value={form.thesis}
+                        onChange={set("thesis")}
+                        className={`${inputCls} resize-y leading-7`}
+                        style={{ fontFamily: MONO, color: ink, caretColor: ink }}
                       />
                     </Field>
                   </div>
-                  <div className="mt-12">
-                    <p className="text-sm leading-6 text-white/70" style={{ fontFamily: MONO }}>
-                      write anything you want about yourself. we read everything.
-                    </p>
-                    <textarea
-                      ref={taRef}
-                      rows={10}
-                      value={form.whiteboard}
-                      onChange={(e) => {
-                        set("whiteboard")(e);
-                        autogrow();
-                      }}
-                      placeholder="the whiteboard is yours."
-                      className={`${inputCls} mt-5 resize-none overflow-hidden leading-7`}
-                      style={{ fontFamily: MONO }}
-                    />
-                    {errors.whiteboard && (
-                      <p className="mt-2 text-xs text-[#CB433A]" style={{ fontFamily: MONO }}>
-                        {errors.whiteboard}
-                      </p>
-                    )}
-                  </div>
-                </>
-              )}
-
-              <div className="mt-10 flex items-center gap-6">
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className={
-                    "group inline-flex items-center gap-2.5 rounded-md border border-white/25 px-4 py-2.5 " +
-                    "text-xs uppercase tracking-[0.15em] text-white whitespace-nowrap cursor-pointer " +
-                    "transition-colors duration-150 ease-out hover:border-[#CB433A] hover:bg-[#CB433A] hover:text-[#0B0F13] " +
-                    "disabled:opacity-40 disabled:pointer-events-none"
-                  }
-                  style={{ fontFamily: MONO }}
-                >
-                  {status === "sending" ? "Sending…" : mode === "careers" ? "Send it" : "Send message"}
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="text-[#CB433A] group-hover:text-[#0B0F13] transition-colors duration-150"
-                  >
-                    <path d="M2 8 H13 M9 3.5 L13.5 8 L9 12.5" stroke="currentColor" strokeWidth="1.8" />
-                  </svg>
-                </button>
-                {status === "error" && (
-                  <p className="text-xs text-[#CB433A]" style={{ fontFamily: MONO }}>
-                    something broke on our side — try again in a minute
-                  </p>
                 )}
-              </div>
-            </form>
-          )}
+
+                {mode === "careers" && (
+                  <>
+                    <div className="mt-12 space-y-10">
+                      <Field
+                        label="cash vs. equity — what's your preference and why?"
+                        error={errors.cashEquity}
+                        sentence
+                      >
+                        <textarea
+                          rows={3}
+                          value={form.cashEquity}
+                          onChange={set("cashEquity")}
+                          className={`${inputCls} resize-none leading-7`}
+                          style={{ fontFamily: MONO, color: ink, caretColor: ink }}
+                        />
+                      </Field>
+                      <Field label="define your own role. what would you do at tensir?" error={errors.role} sentence>
+                        <textarea
+                          rows={3}
+                          value={form.role}
+                          onChange={set("role")}
+                          className={`${inputCls} resize-none leading-7`}
+                          style={{ fontFamily: MONO, color: ink, caretColor: ink }}
+                        />
+                      </Field>
+                    </div>
+                    <div className="mt-12">
+                      <p className="text-sm leading-6" style={{ fontFamily: MONO, color: ink70 }}>
+                        write anything you want about yourself. we read everything.
+                      </p>
+                      <textarea
+                        ref={taRef}
+                        rows={10}
+                        value={form.whiteboard}
+                        onChange={(e) => {
+                          set("whiteboard")(e);
+                          autogrow();
+                        }}
+                        placeholder="the whiteboard is yours."
+                        className={`${inputCls} mt-5 resize-none overflow-hidden leading-7`}
+                        style={{ fontFamily: MONO, color: ink, caretColor: ink }}
+                      />
+                      {errors.whiteboard && (
+                        <p className="mt-2 text-xs" style={{ fontFamily: MONO, color: FRAG }}>
+                          {errors.whiteboard}
+                        </p>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                <div className="mt-10 flex items-center gap-6">
+                  <button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className={
+                      "group inline-flex items-center gap-2.5 rounded-md border border-black/15 px-4 py-2.5 " +
+                      "text-xs uppercase tracking-[0.15em] whitespace-nowrap cursor-pointer " +
+                      "transition-[background-color,border-color,color] duration-150 ease-out " +
+                      "hover:border-[#9A9EB0] hover:bg-[#9A9EB0] hover:text-[#0B0B12] " +
+                      "disabled:opacity-40 disabled:pointer-events-none"
+                    }
+                    style={{ fontFamily: MONO, color: ink }}
+                  >
+                    {status === "sending"
+                      ? "Sending…"
+                      : mode === "careers"
+                        ? "Send it"
+                        : mode === "investors"
+                          ? "Send note"
+                          : "Send message"}
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      className="text-[#9A9EB0] group-hover:text-[#0B0B12] transition-colors duration-150"
+                    >
+                      <path d="M2 8 H13 M9 3.5 L13.5 8 L9 12.5" stroke="currentColor" strokeWidth="1.8" />
+                    </svg>
+                  </button>
+                  {status === "error" && (
+                    <p className="text-xs" style={{ fontFamily: MONO, color: FRAG }}>
+                      something broke on our side — try again in a minute
+                    </p>
+                  )}
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
@@ -361,209 +672,129 @@ function ContactSection() {
 
 export default function TensirLanding() {
   return (
-    <Shell heroOverlap>
+    <Shell>
       <Landing />
     </Shell>
   );
 }
 
 function Landing() {
-  const [loaded, setLoaded] = useState(false);
-  const [videoOk, setVideoOk] = useState(false);
-
-  useEffect(() => {
-    const tm = setTimeout(() => setLoaded(true), 60);
-    return () => clearTimeout(tm);
-  }, []);
-
   return (
     <>
-      {/* 1 — HERO + auto video (muted) */}
-      <section className="relative flex flex-col min-h-[100svh]">
-        <div className="absolute inset-0" style={{ backgroundColor: "#000000" }}>
-          {/* Video: drop /public/hero.mp4 when ready. Grid shows until video can play. */}
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            src="/hero.mp4"
-            className={
-              "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 " +
-              (videoOk ? "opacity-100" : "opacity-0")
-            }
-            onCanPlay={() => setVideoOk(true)}
-            onError={() => setVideoOk(false)}
-          />
-          {!videoOk && (
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 32px)," +
-                  "repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 32px)",
-              }}
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span
-                  className="text-xs tracking-widest uppercase text-white/30 px-6 text-center"
-                  style={{ fontFamily: MONO }}
-                >
-                  [ 30s product capture — autoplay muted loop ]
-                </span>
-              </div>
-            </div>
-          )}
-          <span
-            className="absolute top-[92px] left-4 md:left-10 flex items-center gap-2 text-[10px] text-white/40"
-            style={{ fontFamily: MONO }}
-          >
-            <span className="inline-block w-2 h-2 rounded-full" style={{ background: FRAG }} />
-            REC
-          </span>
-          <span
-            className="absolute top-[92px] right-4 md:right-10 text-[10px] text-white/40"
-            style={{ fontFamily: MONO }}
-          >
-            00:30
-          </span>
-        </div>
-      </section>
-
-      {/* 2 — Big headline + short serves text */}
-      <section className="border-t border-white/10">
-        <div
-          className="px-4 md:px-10 py-16 md:py-24"
-          style={{
-            opacity: loaded ? 1 : 0,
-            transform: loaded ? "none" : "translateY(10px)",
-            transition: "opacity 700ms ease, transform 700ms ease",
-          }}
-        >
+      {/* 1 — Hero */}
+      <section className="relative z-10 pt-28 md:pt-36">
+        <div className="px-4 md:px-10 pb-16 md:pb-24">
           <h1
-            className="font-semibold leading-[1.02] max-w-5xl"
-            style={{ fontFamily: DISPLAY, fontSize: "clamp(2.75rem, 7vw, 5.5rem)", letterSpacing: "-0.02em" }}
+            className="font-semibold leading-[1.02] whitespace-nowrap"
+            style={{
+              fontFamily: DISPLAY,
+              fontSize: "clamp(1.05rem, 4.35vw, 4.75rem)",
+              letterSpacing: "-0.025em",
+              color: ink,
+            }}
           >
-            Assemble compute for chemistry.
+            {t.hero}
           </h1>
-          <p className="mt-8 max-w-3xl text-lg md:text-xl leading-[1.5] text-white/65">
-            {t.serves}
+          <p
+            className="mt-8 max-w-2xl text-base md:text-lg leading-[1.65]"
+            style={{ color: ink70 }}
+          >
+            {t.heroSupport}
           </p>
+          <div className="mt-10">
+            <Cta href="#contact">Request a Demo</Cta>
+          </div>
         </div>
       </section>
 
-      {/* 3 — Industries */}
-      <section className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-8 md:py-10 border-b border-white/10">
-          <h2 className="text-2xl md:text-[2rem] font-semibold tracking-tight" style={{ fontFamily: DISPLAY }}>
-            Industries
-          </h2>
+      {/* 2 — Product demo + five tabs as a single line */}
+      <section id="demo" className="border-t border-black/10 scroll-mt-28">
+        <div className="px-4 md:px-10 pt-16 md:pt-20 pb-10 md:pb-12">
+          <Kicker>Product Demo</Kicker>
+          <div className="overflow-hidden rounded-md border border-black/10">
+            <DemoVideo src={DEMO_VIDEO_SRC} />
+          </div>
         </div>
-        <div>
-          {t.industries.map((ind) => (
-            <div
-              key={ind.name}
-              className="flex flex-col md:flex-row md:items-start border-b border-white/10 last:border-b-0"
-            >
-              <div className="md:w-[340px] shrink-0 px-4 md:px-10 pt-8 md:py-12">
-                <h3
-                  className="text-xl md:text-2xl font-semibold tracking-tight leading-snug"
-                  style={{ fontFamily: DISPLAY }}
+        <div className="border-t border-black/10">
+          <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-3 sm:gap-x-5 md:gap-x-8 gap-y-3 px-4 py-8 md:py-10">
+            {t.keywords.map((name, i) => (
+              <span key={name} className="contents">
+                {i > 0 && (
+                  <span className="text-black/25" aria-hidden="true">
+                    →
+                  </span>
+                )}
+                <span
+                  className="text-base md:text-lg font-semibold tracking-tight"
+                  style={{ fontFamily: DISPLAY, color: ink }}
                 >
-                  {ind.name}
-                </h3>
-              </div>
-              <div className="flex-1 min-w-0 px-4 md:px-10 pb-8 md:py-12 md:border-l md:border-white/10">
-                <p className="text-base md:text-lg leading-[1.55] text-white/75 max-w-3xl">{ind.body}</p>
-              </div>
-            </div>
+                  {name}
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3 — Industries: two rows of five; reveal buyer examples */}
+      <section id="industries" className="border-t border-black/10 scroll-mt-28">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-px bg-black/10">
+          {t.industries.map((card) => (
+            <RevealCard key={card.title} title={card.title} items={card.items} />
           ))}
         </div>
       </section>
 
-      {/* 4 — Materials & Molecular Systems */}
-      <section className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-16 md:py-24">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-white/45 mb-4" style={{ fontFamily: MONO }}>
-            Domain
+      {/* 4 — Materials: systems | classes */}
+      <section id="materials" className="border-t border-black/10 scroll-mt-28">
+        <div className="px-4 md:px-10 pt-12 md:pt-16 pb-4">
+          <Kicker>Materials</Kicker>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black/10 border-t border-black/10">
+          {t.materials.map((card) => (
+            <RevealCard
+              key={card.title}
+              title={card.title}
+              items={card.items}
+              size="lg"
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 5 — Software stack */}
+      <section id="stack" className="border-t border-black/10 scroll-mt-28">
+        <div className="px-4 md:px-10 pt-16 md:pt-20 pb-8">
+          <Kicker>Software Stack</Kicker>
+          <p className="max-w-3xl text-base md:text-lg leading-[1.55]" style={{ color: ink65 }}>
+            {t.stackLead}
           </p>
-          <h2
-            className="font-semibold tracking-tight max-w-4xl"
-            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3.25rem)" }}
-          >
-            {t.materialsUmbrella}
-          </h2>
-          <ul className="mt-12 flex flex-wrap gap-3 md:gap-4">
-            {t.materialTypes.map((type) => (
-              <li
-                key={type}
-                className="rounded-md border border-white/15 px-4 py-2.5 text-sm md:text-base text-white/80"
-                style={{ fontFamily: MONO }}
-              >
-                {type}
-              </li>
-            ))}
-          </ul>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 border-t border-black/10">
+          {t.stack.map((card) => (
+            <RevealCard
+              key={card.title}
+              title={card.title}
+              body={card.body}
+              items={card.items}
+            />
+          ))}
         </div>
       </section>
 
-      {/* 5 — Tools & Backends */}
-      <section className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-16 md:py-24">
-          <h2
-            className="font-semibold tracking-tight"
-            style={{ fontFamily: DISPLAY, fontSize: "clamp(2rem, 4.5vw, 3.25rem)" }}
-          >
-            Tools &amp; Backends
-          </h2>
-          <p className="mt-6 max-w-3xl text-base md:text-lg leading-[1.55] text-white/65">{t.toolsBlurb}</p>
-          <ul className="mt-12 flex flex-wrap gap-3 md:gap-4">
-            {t.tools.map((tool) => (
-              <li
-                key={tool}
-                className="rounded-md border border-white/15 px-4 py-2.5 text-sm md:text-base text-white/80"
-                style={{ fontFamily: MONO }}
-              >
-                {tool}
-              </li>
-            ))}
-          </ul>
+      {/* 6 — Deployment / Enterprise */}
+      <section id="deploy" className="border-t border-black/10 scroll-mt-28">
+        <div className="px-4 md:px-10 pt-12 md:pt-16 pb-4">
+          <Kicker>Deployment</Kicker>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-black/10 border-t border-black/10">
+          {t.deploy.map((card) => (
+            <RevealCard key={card.title} title={card.title} items={card.items} />
+          ))}
         </div>
       </section>
 
-      {/* Quote (kept) */}
-      <section className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-24 md:py-36">
-          <blockquote className="max-w-4xl border-l-2 pl-6 md:pl-12" style={{ borderColor: FRAG }}>
-            <p
-              className="text-[1.625rem] md:text-[2.25rem] font-medium italic tracking-tight leading-[1.25]"
-              style={{ fontFamily: DISPLAY }}
-            >
-              {t.quote}
-            </p>
-            <footer className="mt-8 text-xs uppercase tracking-[0.2em] text-white/45" style={{ fontFamily: MONO }}>
-              {t.founder}
-            </footer>
-          </blockquote>
-        </div>
-      </section>
-
-      {/* 6 — Simple pip install CTA */}
-      <section id="install" className="border-t border-white/10">
-        <div className="px-4 md:px-10 py-20 md:py-28 text-center">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-white/45 mb-6" style={{ fontFamily: MONO }}>
-            Get started
-          </p>
-          <pre
-            className="inline-block rounded-md border border-white/15 px-6 py-4 md:px-10 md:py-5 text-lg md:text-2xl text-white"
-            style={{ fontFamily: MONO, backgroundColor: PANEL }}
-          >
-            pip install tensir
-          </pre>
-        </div>
-      </section>
-
-      {/* 7 — Contact form (default) + careers toggle */}
+      {/* 7 — Request a Demo + contact form */}
       <ContactSection />
     </>
   );

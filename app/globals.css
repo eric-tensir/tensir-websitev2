@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 html {
-  background-color: #000000;
+  background-color: #ffffff;
+  scroll-behavior: smooth;
 }
 
 ::selection {
-  background: #cb433a;
-  color: #0b0f13;
+  background: #9a9eb0;
+  color: #ffffff;
 }
 
 /* Right-column axis: the nav links' left edge. .right-axis pins the nav's
@@ -15,6 +16,10 @@ html {
    Both only engage at lg — below that, layouts fall back to their own flow. */
 :root {
   --right-col: 600px;
+
+  /* Site ink — dark primary for readability on #fff */
+  --ink-primary: #0b0b12;
+  --ink-muted: #5c6275;
 }
 
 @media (min-width: 1024px) {

@@ -27,8 +27,8 @@ const t = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputCls =
-  "w-full rounded-md border border-white/15 bg-[#10151B] px-4 py-3 text-[15px] text-white " +
-  "placeholder:text-white/25 outline-none transition-colors duration-150 focus:border-[#CB433A]";
+  "w-full rounded-md border border-black/15 bg-[#F4F5F7] px-4 py-3 text-[15px] text-[#0B0B12] " +
+  "placeholder:text-black/30 outline-none transition-colors duration-150 focus:border-[#9A9EB0]";
 
 function Field({ label, error, sentence, children }) {
   return (
@@ -36,8 +36,8 @@ function Field({ label, error, sentence, children }) {
       <label
         className={
           sentence
-            ? "block mb-3 text-sm leading-6 text-white/70"
-            : "block mb-2 text-[11px] uppercase tracking-[0.2em] text-white/45"
+            ? "block mb-3 text-sm leading-6 text-black/70"
+            : "block mb-2 text-[11px] uppercase tracking-[0.2em] text-black/45"
         }
         style={{ fontFamily: MONO }}
       >
@@ -106,8 +106,8 @@ export function CareersContent() {
   return (
     <>
       {/* ————— HEADER ————— */}
-      <section className="px-4 md:px-10 pt-16 md:pt-24 pb-14 md:pb-20 border-b border-white/10">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-white/45" style={{ fontFamily: MONO }}>
+      <section className="px-4 md:px-10 pt-16 md:pt-24 pb-14 md:pb-20 border-b border-black/10">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-black/45" style={{ fontFamily: MONO }}>
           {t.kicker}
         </p>
         <h1
@@ -118,7 +118,7 @@ export function CareersContent() {
         </h1>
         <div className="mt-8 max-w-2xl space-y-4">
           {t.intro.map((line) => (
-            <p key={line} className="text-sm md:text-base leading-6 text-white/60" style={{ fontFamily: MONO }}>
+            <p key={line} className="text-sm md:text-base leading-6 text-black/60" style={{ fontFamily: MONO }}>
               {line}
             </p>
           ))}
@@ -133,7 +133,7 @@ export function CareersContent() {
               <p className="text-sm text-[#CB433A]" style={{ fontFamily: MONO }}>
                 {t.successHead}
               </p>
-              <p className="mt-4 text-base md:text-lg leading-7 text-white/80" style={{ fontFamily: MONO }}>
+              <p className="mt-4 text-base md:text-lg leading-7 text-black/80" style={{ fontFamily: MONO }}>
                 {t.successBody}
               </p>
             </div>
@@ -175,7 +175,7 @@ export function CareersContent() {
               </div>
 
               <div className="mt-12">
-                <p className="text-sm leading-6 text-white/70" style={{ fontFamily: MONO }}>
+                <p className="text-sm leading-6 text-black/70" style={{ fontFamily: MONO }}>
                   {t.whiteboardLabel}
                 </p>
                 <textarea
@@ -202,9 +202,9 @@ export function CareersContent() {
                   type="submit"
                   disabled={status === "sending"}
                   className={
-                    "group inline-flex items-center gap-2.5 rounded-md border border-white/25 px-4 py-2.5 " +
-                    "text-xs uppercase tracking-[0.15em] text-white whitespace-nowrap cursor-pointer " +
-                    "transition-colors duration-150 ease-out hover:border-[#CB433A] hover:bg-[#CB433A] hover:text-[#0B0F13] " +
+                    "group inline-flex items-center gap-2.5 rounded-md border border-black/20 px-4 py-2.5 " +
+                    "text-xs uppercase tracking-[0.15em] text-[#0B0B12] whitespace-nowrap cursor-pointer " +
+                    "transition-colors duration-150 ease-out hover:border-[#9A9EB0] hover:bg-[#9A9EB0] hover:text-[#0B0B12] " +
                     "disabled:opacity-40 disabled:pointer-events-none"
                   }
                   style={{ fontFamily: MONO }}
@@ -215,7 +215,7 @@ export function CareersContent() {
                     height="13"
                     viewBox="0 0 16 16"
                     fill="none"
-                    className="text-[#CB433A] group-hover:text-[#0B0F13] transition-colors duration-150"
+                    className="text-[#9A9EB0] group-hover:text-[#0B0B12] transition-colors duration-150"
                   >
                     <path d="M2 8 H13 M9 3.5 L13.5 8 L9 12.5" stroke="currentColor" strokeWidth="1.8" />
                   </svg>

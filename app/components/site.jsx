@@ -1,34 +1,48 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 // ————————————————————————————————————————————
 // TENSIR — shared shell (nav, footer, buttons, mark, contact context)
-// Dark theme: near-black, light ink, crimson accent only.
+// Light theme: white ground, black ink, moon-gray / blue-purple cool accents.
 // ————————————————————————————————————————————
 
-// Two-font system (loaded in layout.jsx via next/font): Space Grotesk for
-// display and body, IBM Plex Mono for data/code accents (labels, kickers).
+// Fonts (layout.jsx via next/font): Space Grotesk body/display, Onest wordmark,
+// IBM Plex Mono data accents.
 export const MONO = "var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
 export const SANS = "var(--font-display), ui-sans-serif, system-ui, sans-serif";
 export const DISPLAY = "var(--font-display), ui-sans-serif, sans-serif";
+export const WORDMARK = "var(--font-wordmark), ui-sans-serif, system-ui, sans-serif";
 
-export const BG = "#000000";
-export const PANEL = "#0A0A0A";
-export const INK_LIGHT = "#F2F1ED";
+export const BG = "#FFFFFF";
+export const PANEL = "#F4F5F7";
+// Site ink: dark primary for contrast on white; muted stays secondary.
+export const INK_LIGHT = "#0B0B12";
+export const INK_MUTED = "#5C6275";
+export const INK_ON_ACCENT = "#FFFFFF";
 
-// Tensir mark — master geometry. Shard palette brightened for the dark bg;
-// FRAG remains the site-wide crimson accent used outside the mark.
-export const SHARD_DARK = "#8A2B22";
-export const SHARD = "#E05548";
-export const FRAG = "#CB433A";
+// Tensir mark.
+// Stone is all black. Wordmark: all black.
+export const SHARD_DARK = "#000000";
+export const SHARD = "#9BA3B8";
+export const SHARD_BLACK = "#000000";
+export const SHARD_WHITE = "#FFFFFF";
+
+// Soft site accent (borders / quote bar); not used inside the mark.
+export const FRAG = "#9A9EB0";
 
 // Cracks, gaps, and the center hole are cut out via mask (black = removed),
-// so the site background shows through — nothing is painted white.
+// so the site background shows through.
 export function TensirMark({ size = 28, id = "m" }) {
   const mask = `tensir-${id}`;
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Tensir">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Tensir"
+    >
       <mask id={mask}>
         <rect width="100" height="100" fill="#fff" />
         <polygon points="90.1,57.1 78.7,71.6 66.6,84.7 22.9,83.3 13.2,64.0 35.4,29.3 64.3,17.9 87.2,18.9" fill="#000" />
@@ -43,10 +57,6 @@ export function TensirMark({ size = 28, id = "m" }) {
       </mask>
       <g mask={`url(#${mask})`}>
         <rect width="100" height="100" fill={SHARD_DARK} />
-        <polygon points="22.9,83.3 3.6,100.0 0.0,100.0 0.0,67.1 13.2,64.0" fill={SHARD} />
-        <polygon points="13.2,64.0 0.0,67.1 0.0,0.0 9.2,0.0 35.4,29.3" fill={SHARD} />
-        <polygon points="35.4,29.3 9.2,0.0 67.9,0.0 64.3,17.9" fill={SHARD} />
-        <polygon points="64.3,17.9 67.9,0.0 100.0,0.0 100.0,4.1 87.2,18.9" fill={SHARD} />
       </g>
     </svg>
   );
@@ -56,56 +66,79 @@ export function TensirMark({ size = 28, id = "m" }) {
 const ContactCtx = createContext(() => {});
 export const useContact = () => useContext(ContactCtx);
 
-// ————— CTA button — mono, hairline border, crimson arrow, crimson fill on hover —————
-export function Cta({ children, onClick, href }) {
+// ————— CTA button — mono, moon-gray fill on hover —————
+export function Cta({ children, onClick, href, className = "" }) {
   const cls =
-    "group inline-flex items-center gap-2.5 rounded-md border border-white/25 px-4 py-2.5 " +
-    "text-xs uppercase tracking-[0.15em] text-white whitespace-nowrap cursor-pointer " +
-    "transition-colors duration-150 ease-out hover:border-[#CB433A] hover:bg-[#CB433A] hover:text-[#0B0F13]";
+    "group inline-flex items-center gap-2.5 rounded-md border border-black/15 px-4 py-2.5 " +
+    "text-xs uppercase tracking-[0.15em] whitespace-nowrap cursor-pointer " +
+    "transition-[background-color,border-color,color] duration-150 ease-out " +
+    "hover:border-[#9A9EB0] hover:bg-[#9A9EB0] hover:text-[#0B0B12] " +
+    className;
   const arrow = (
     <svg
       width="13"
       height="13"
       viewBox="0 0 16 16"
       fill="none"
-      className="text-[#CB433A] group-hover:text-[#0B0F13] transition-colors duration-150"
+      className="text-[#9A9EB0] group-hover:text-[#0B0B12] transition-colors duration-150"
     >
       <path d="M2 8 H13 M9 3.5 L13.5 8 L9 12.5" stroke="currentColor" strokeWidth="1.8" />
     </svg>
   );
   if (href) {
     return (
-      <a href={href} className={cls} style={{ fontFamily: MONO }}>
+      <a href={href} className={cls.trim()} style={{ fontFamily: MONO, color: INK_LIGHT }}>
         {children}
         {arrow}
       </a>
     );
   }
   return (
-    <button onClick={onClick} className={cls} style={{ fontFamily: MONO }}>
+    <button onClick={onClick} className={cls.trim()} style={{ fontFamily: MONO, color: INK_LIGHT }}>
       {children}
       {arrow}
     </button>
   );
 }
 
-// Logo-only top bar — pure one-page scroll, no top navigation links.
+// Compact header: logo + wordmark left, Get started right.
+// On scroll, frosted fill + blur across the bar.
 function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header
-      className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-md"
-      style={{ backgroundColor: "rgba(0,0,0,0.88)" }}
-    >
-      <div className="flex items-center px-4 md:px-10 h-[76px]">
-        <a href="/" className="flex items-center gap-4">
-          <TensirMark size={64} id="nav" />
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <div
+        className="flex items-center justify-between gap-4 pl-4 md:pl-10 pr-4 md:pr-10 pt-4 md:pt-5 pb-3 md:pb-4"
+        style={{
+          backgroundColor: scrolled ? "rgba(255,255,255,0.72)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px) saturate(1.1)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(16px) saturate(1.1)" : "none",
+          transition:
+            "background-color 280ms ease, backdrop-filter 280ms ease, -webkit-backdrop-filter 280ms ease",
+        }}
+      >
+        <a href="/" className="flex items-center gap-3 md:gap-4 min-w-0">
+          <TensirMark size={56} id="nav" />
           <span
-            className="text-4xl font-semibold leading-none tracking-tight"
-            style={{ fontFamily: DISPLAY, color: INK_LIGHT }}
+            className="text-4xl md:text-5xl font-semibold leading-none tracking-tight"
+            style={{ fontFamily: WORDMARK, color: SHARD_BLACK }}
+            aria-label="Tensir"
           >
             Tensir
           </span>
         </a>
+
+        <Cta href="/#contact" className="shrink-0">
+          Get started
+        </Cta>
       </div>
     </header>
   );
@@ -113,33 +146,40 @@ function Nav() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10">
+    <footer className="border-t border-black/10">
       <div className="px-4 md:px-10 py-12 flex flex-col md:flex-row md:items-center justify-between gap-10">
         <TensirMark size={36} id="footer" />
-        <div className="flex items-center gap-6 text-[13px] text-white/60" style={{ fontFamily: MONO }}>
+        <nav
+          className="flex flex-wrap items-center gap-6 text-[13px]"
+          aria-label="Footer"
+          style={{ fontFamily: MONO, color: "rgba(11,11,18,0.55)" }}
+        >
+          <a href="/mission" className="hover:opacity-100 opacity-90 transition-opacity duration-150" style={{ color: INK_LIGHT }}>
+            Company
+          </a>
+          <a href="/#contact" className="hover:opacity-100 opacity-90 transition-opacity duration-150" style={{ color: INK_LIGHT }}>
+            Contact
+          </a>
+          <a href="/privacy" className="hover:opacity-100 opacity-90 transition-opacity duration-150" style={{ color: INK_LIGHT }}>
+            Privacy
+          </a>
+        </nav>
+        <div className="flex items-center gap-6 text-[13px]" style={{ fontFamily: MONO, color: "rgba(11,11,18,0.55)" }}>
           <a
             href="https://www.linkedin.com/company/tensir"
             aria-label="Tensir on LinkedIn"
-            className="hover:text-white transition-colors duration-150"
+            className="hover:opacity-100 opacity-90 transition-opacity duration-150"
+            style={{ color: INK_LIGHT }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z" />
             </svg>
           </a>
-          {/* TODO(eric): confirm Instagram / X handles once the accounts exist. */}
           <a
-            href="https://www.instagram.com/tensir"
-            aria-label="Tensir on Instagram"
-            className="hover:text-white transition-colors duration-150"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
-            </svg>
-          </a>
-          <a
-            href="https://x.com/tensir"
+            href="https://x.com/TensirTech"
             aria-label="Tensir on X"
-            className="hover:text-white transition-colors duration-150"
+            className="hover:opacity-100 opacity-90 transition-opacity duration-150"
+            style={{ color: INK_LIGHT }}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
@@ -148,8 +188,8 @@ function Footer() {
         </div>
       </div>
       <div
-        className="border-t border-white/10 px-4 md:px-10 py-4 text-[11px] text-white/35"
-        style={{ fontFamily: MONO }}
+        className="border-t border-black/10 px-4 md:px-10 py-4 text-[11px]"
+        style={{ fontFamily: MONO, color: "rgba(11,11,18,0.4)" }}
       >
         © Tensir SASU. All rights reserved.
       </div>
@@ -157,14 +197,14 @@ function Footer() {
   );
 }
 
-export function Shell({ children, heroOverlap = false }) {
+export function Shell({ children }) {
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
     <ContactCtx.Provider value={() => setContactOpen(true)}>
       <div className="min-h-screen antialiased" style={{ backgroundColor: BG, color: INK_LIGHT, fontFamily: SANS }}>
         <Nav />
-        <main className={heroOverlap ? "-mt-[76px]" : ""}>{children}</main>
+        <main>{children}</main>
         <Footer />
         {/* Contact modal mounts here in the next pass; contactOpen: {String(contactOpen)} */}
       </div>

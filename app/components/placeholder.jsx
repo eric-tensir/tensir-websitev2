@@ -11,7 +11,7 @@ export function PagePlaceholder({ title, note }) {
       >
         {title}
       </h1>
-      <p className="mt-8 text-sm text-white/45 max-w-xl" style={{ fontFamily: MONO }}>
+      <p className="mt-8 text-sm text-black/45 max-w-xl" style={{ fontFamily: MONO }}>
         {note}
       </p>
     </section>
