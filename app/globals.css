@@ -5,6 +5,11 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
+
 ::selection {
   background: #9a9eb0;
   color: #ffffff;
@@ -20,6 +25,22 @@ html {
   /* Site ink — dark primary for readability on #fff */
   --ink-primary: #0b0b12;
   --ink-muted: #5c6275;
+}
+
+.content-card {
+  min-width: 0;
+  border: 1px solid #e1e3e9;
+  border-radius: 16px;
+  background: #f7f8fa;
+  padding: 24px;
+}
+
+.text-chip {
+  max-width: 100%;
+  border: 1px solid #e1e3e9;
+  border-radius: 10px;
+  background: #f7f8fa;
+  padding: 10px 14px;
 }
 
 @media (min-width: 1024px) {

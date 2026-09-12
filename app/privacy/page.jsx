@@ -12,7 +12,7 @@ export default function PrivacyPage() {
         >
           Privacy
         </h1>
-        <p className="mt-8 text-base leading-7 text-black/70" style={{ fontFamily: MONO }}>
+        <p className="mt-8 max-w-2xl text-base leading-7 text-black/70" style={{ fontFamily: MONO }}>
           Contact submissions are used only to respond to demo and technical inquiries. We do not
           sell this information. For questions, write to{" "}
           <a href="mailto:eric@tensir.ai" className="underline underline-offset-4">

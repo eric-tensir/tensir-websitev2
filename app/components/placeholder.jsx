@@ -4,7 +4,7 @@ import { MONO, DISPLAY } from "./site";
 
 export function PagePlaceholder({ title, note }) {
   return (
-    <section className="px-4 md:px-10 pt-16 md:pt-24 pb-24 min-h-[60vh] flex flex-col justify-center">
+    <section className="px-4 md:px-10 pt-28 md:pt-36 pb-24 min-h-[60vh] flex flex-col justify-center">
       <h1
         className="font-semibold tracking-tight leading-none"
         style={{ fontFamily: DISPLAY, fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}

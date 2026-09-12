@@ -27,7 +27,8 @@ const mono = IBM_Plex_Mono({
 
 export const metadata = {
   title: "Tensir",
-  description: "Compute logistics for chemistry R&D.",
+  description: "Software infrastructure for orchestrating materials research pipelines.",
+  metadataBase: new URL("https://tensir.com"),
 };
 
 export default function RootLayout({ children }) {

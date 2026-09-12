@@ -106,7 +106,7 @@ export function CareersContent() {
   return (
     <>
       {/* ————— HEADER ————— */}
-      <section className="px-4 md:px-10 pt-16 md:pt-24 pb-14 md:pb-20 border-b border-black/10">
+      <section className="px-4 md:px-10 pt-28 md:pt-36 pb-14 md:pb-20">
         <p className="text-[11px] uppercase tracking-[0.22em] text-black/45" style={{ fontFamily: MONO }}>
           {t.kicker}
         </p>

@@ -126,9 +126,9 @@ function Nav() {
         }}
       >
         <a href="/" className="flex items-center gap-3 md:gap-4 min-w-0">
-          <TensirMark size={56} id="nav" />
+          <span className="hidden sm:block"><TensirMark size={56} id="nav" /></span>
           <span
-            className="text-4xl md:text-5xl font-semibold leading-none tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-none tracking-tight"
             style={{ fontFamily: WORDMARK, color: SHARD_BLACK }}
             aria-label="Tensir"
           >
@@ -137,7 +137,7 @@ function Nav() {
         </a>
 
         <Cta href="/#contact" className="shrink-0">
-          Get started
+          Request a Demo
         </Cta>
       </div>
     </header>
@@ -159,6 +159,9 @@ function Footer() {
           </a>
           <a href="/#contact" className="hover:opacity-100 opacity-90 transition-opacity duration-150" style={{ color: INK_LIGHT }}>
             Contact
+          </a>
+          <a href="/careers" className="hover:opacity-100 opacity-90 transition-opacity duration-150" style={{ color: INK_LIGHT }}>
+            Careers
           </a>
           <a href="/privacy" className="hover:opacity-100 opacity-90 transition-opacity duration-150" style={{ color: INK_LIGHT }}>
             Privacy
